@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xmas 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua" rel="stylesheet">
+    <style>
+        @media (max-width: 750px) {
+            :root {
+                --body-width: 100%;
+                --body-height: auto;
+                --body-padding: 50px 0px;
+                --body-flex-direction: column;
+                --sidebar-width: 420px;
+                --sidebar-margin: 0px 30px;
+            }
+        }
+
+        @media (min-width: 901px) {
+            :root {
+                --body-width: calc(100vw - 60px);
+                --body-height: calc(100vh - 60px);
+                --body-padding: 30px;
+                --body-flex-direction: row;
+                --sidebar-width: 360px;
+                --sidebar-margin: 0px;
+            }
+        }
+
+        body{
+            width: var(--body-width);
+            height: var(--body-height);
+            margin: 0;
+            padding: var(--body-padding);
+            background-color: #FFFAF5;
+            display: flex;
+            flex-direction: var(--body-flex-direction);
+            justify-content: center;
+            gap: 25px;
+            font-family: "Jua";
+            cursor: default;
+            overflow: auto;
+        }
+
+        body > div{
+            height: 100%;;
+            display: block;
+        }
+
+        .sidebar{
+            width: var(--sidebar-width);
+            margin: var(--sidebar-margin);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .game{
+            width: 480px;
+        }
+
+        .sidebar > img{
+            width: 100%;
+        }
+        .leaderboard{
+            width: calc(100% - 30px);
+            padding: 15px;
+            border-radius: 25px;
+            background-color: #EBE1D1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 15px;
+        }
+        .leaderboard > div:nth-of-type(1){
+            text-decoration: underline;
+        }
+        .leaderboard_info > div{
+            display: flex;
+            margin-top: 5px;
+        }
+        .leaderboard_info > div > div:nth-of-type(1){
+            width: 20px;
+            text-align: center;
+        }
+        .leaderboard_info > div > div:nth-of-type(2){
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .leaderboard_info > div > div:nth-of-type(3){
+            width: 80px;
+            margin-right: 5px;
+            text-align: right;
+        }
+
+        .gameboard {
+            padding: 20px;
+            border-radius: 25px;
+            background-color: #C6B598;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 20px;
+            box-sizing: border-box;
+        }
+        .gameboard > div{
+            aspect-ratio: 1/1;
+            border-radius: 10px;
+            background-color: #EBE1D1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .gameboard > div > img{
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .gamecontrol{
+            width: calc(100% - 40px);
+            margin-top: 25px;
+            padding: 0px 20px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .gamecontrol > div:nth-of-type(1){
+            width: 150px;
+            display: flex; 
+            flex-direction: column;
+        }
+        .gamecontrol > div:nth-of-type(1) > div{
+            display: flex; 
+            font-size: 24px;
+        }
+        .gamecontrol > div:nth-of-type(1) > div:nth-of-type(1){
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 16px;
+        }
+
+        .gamecontrol > div:nth-of-type(2){
+            width: 55%;
+            height: 76px;
+            margin-left: auto;
+            margin-right: 0;
+            border-radius: 18px;
+            background-color: #EBE1D1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+        }
+        .gamecontrol > div:nth-of-type(2) > div:nth-of-type(2){
+            font-size: 16px;
+            display: flex;
+        }
+
+        .selected{
+            outline: 3px dashed #FF0000;
+        }
+        .success{
+            animation: success-blink 0.5s linear infinite;
+        }
+        @keyframes success-blink {
+            0%   { opacity: 1; }
+            50%  { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="leaderboard">
+            <div>LEADERBOARD</div>
+            <div class="leaderboard_info">
+                <div>
+                    <div>1</div>
+                    <div class="leaderboard_username"></div>
+                    <div class="leaderboard_score"></div>
+                </div>
+                <div>
+                    <div>2</div>
+                    <div class="leaderboard_username"></div>
+                    <div class="leaderboard_score"></div>
+                </div>
+                <div>
+                    <div>3</div>
+                    <div class="leaderboard_username"></div>
+                    <div class="leaderboard_score"></div>
+                </div>
+            </div>
+        </div>
+        <img src="Images/GameDetails.png">
+    </div>
+
+    <div class="game">
+        <div class="gameboard">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <div class="gamecontrol">
+            <div>
+                <div id="guest"></div>
+                <div>
+                    <div>Score:&nbsp;</div>
+                    <div id="user_score">0</div>
+                </div>
+            </div>
+            <div id="game_btn">
+                <div>START</div>
+                <div>(<div id="game_timer">120</div>s)</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="script.js" type="module"></script>
+</html>
