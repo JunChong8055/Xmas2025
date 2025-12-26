@@ -14,10 +14,11 @@
                 --body-flex-direction: column;
                 --sidebar-width: 420px;
                 --sidebar-margin: 0px 30px;
+                --sidebar-gap: 20px;
             }
         }
 
-        @media (min-width: 901px) {
+        @media (min-width: 751px) {
             :root {
                 --body-width: calc(100vw - 60px);
                 --body-height: calc(100vh - 60px);
@@ -25,6 +26,7 @@
                 --body-flex-direction: row;
                 --sidebar-width: 360px;
                 --sidebar-margin: 0px;
+                --sidebar-gap: 30px;
             }
         }
 
@@ -54,7 +56,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: var(--sidebar-gap);
         }
         .game{
             width: 480px;
@@ -248,4 +250,5 @@
     </div>
 </body>
 <script src="script.js" type="module"></script>
+
 </html>
