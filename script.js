@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, collection, onSnapshot, doc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, onSnapshot, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const txtGuest = document.getElementById("guest");
 const userScore = document.getElementById("user_score");
@@ -12,26 +12,26 @@ const timer = document.getElementById("game_timer");
 let selectedCell = "";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDD2nGigcyd0PYDNwxiE3111yzTEghpH84",
-    authDomain: "xmas2025-c2ed5.firebaseapp.com",
-    projectId: "xmas2025-c2ed5",
-    storageBucket: "xmas2025-c2ed5.firebasestorage.app",
-    messagingSenderId: "440835555912",
-    appId: "1:440835555912:web:69e8764628ceac7d9cce7d"
+    apiKey: "AIzaSyBwrK45CS0tKxOZcVn3-ZEHF4sV1a9p33w",
+    authDomain: "junchongminigames.firebaseapp.com",
+    projectId: "junchongminigames",
+    storageBucket: "junchongminigames.firebasestorage.app",
+    messagingSenderId: "468714957594",
+    appId: "1:468714957594:web:707d4e7a8a2d46e8fd5aa3"
 };
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
-function ListenDatabase(){
-    const databaseCollection = collection(database, "Xmas2025");
+function ListenDocument(){
+    const databaseDoc = doc(database, "Xmas2025", "GuestData");
 
-    onSnapshot(databaseCollection, (docSnapshot) => {
-        let data = docSnapshot.docs[0].data();
+    onSnapshot(databaseDoc, (docSnap) => {
+        let data = docSnap.data();
 
         // Leaderboard
         for (let rank = 0; rank < 3; rank++) {
-            leaderboardUsername[rank].innerText = data.Leaderboard_Guest[rank];
-            leaderboardScore[rank].innerText = data.Leaderboard_Score[rank];
+            leaderboardUsername[rank].innerText = data.LeaderboardGuest[rank];
+            leaderboardScore[rank].innerText = data.LeaderboardScore[rank];
         }
 
         // Guest Number
@@ -40,47 +40,46 @@ function ListenDatabase(){
             guestNumber = parseInt(data.GuestNumber) + 1;
             data.GuestNumber = guestNumber;
             localStorage.setItem("guestNumber", guestNumber);
-            WriteDatabase(data);
+            WriteDocument(data);
         }
         txtGuest.innerText = `Guest ${guestNumber}`;
     });
 }
-ListenDatabase();
+ListenDocument();
 
-async function WriteDatabase(newData){
-    const docRef = doc(database, "Xmas2025", "Xmas2025");
-    await setDoc(docRef, newData);
+async function WriteDocument(newData){
+    const writeDoc = doc(database, "Xmas2025", "GuestData");
+    await setDoc(writeDoc, newData);
 }
 
-async function ReadDatabase(){
-    const colRef = collection(database, "Xmas2025");
-    const snapshot = await getDocs(colRef);
-    return snapshot.docs[0].data();
+async function ReadDocument(){
+    const readDoc = doc(database, "Xmas2025", "GuestData");
+    const snap = await getDoc(readDoc);
+    return snap.data();
 }
 
 async function UpdateLeaderboardScore(){
-    let latestData = await ReadDatabase();
-    let leaderboardGuest = latestData.Leaderboard_Guest;
-    let leaderboardScore = latestData.Leaderboard_Score;
+    let latestData = await ReadDocument();
+    let leaderboardGuest = latestData.LeaderboardGuest;
+    let leaderboardScore = latestData.LeaderboardScore;
     let guest = txtGuest.innerText;
     let score = parseInt(userScore.innerText);
 
-    let targetDate = new Date(2025, 11, 26, 12, 0, 0);
-    let currentDate = new Date();
-    if (currentDate < targetDate) {
-        // Insert Score When Higher
-        for (let point = 0; point < 3; point++) {
-            if (score > parseInt(leaderboardScore[point])) {
-                leaderboardGuest.splice(point, 0, guest);
-                leaderboardScore.splice(point, 0, score);
-                break;
-            }
+    // Insert Score When Higher
+    for (let point = 0; point < 3; point++) {
+        if (score > parseInt(leaderboardScore[point])) {
+            leaderboardGuest.splice(point, 0, guest);
+            leaderboardScore.splice(point, 0, score);
+            break;
         }
+    }
 
-        // Slice Into 3 Index
-        latestData.Leaderboard_Guest = leaderboardGuest.slice(0, 3);
-        latestData.Leaderboard_Score = leaderboardScore.slice(0, 3);
-        WriteDatabase(latestData);
+    // Slice Into 3 Index
+    if (leaderboardGuest.length > 3)
+    {
+        latestData.LeaderboardGuest = leaderboardGuest.slice(0, 3);
+        latestData.LeaderboardScore = leaderboardScore.slice(0, 3);
+        WriteDocument(latestData);
     }
 }
 
@@ -255,3 +254,4 @@ btnGame.addEventListener("click", () => {
         GenerateImage();
     }
 });
+
